@@ -41,12 +41,19 @@ class Problems extends CI_Controller
 		}
 		if ($problem_id === NULL)
 			show_error("File not found");
-		
-		$pattern = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/template.cpp";
 
-		$pdf_files = glob($pattern);
-		if ( ! $pdf_files )
-			show_error("File not found");
+		$pattern1 = rtrim($this->settings_model->get_setting('assignments_root'),'/')
+					."/assignment_{$assignment_id}/p{$problem_id}/template.public.cpp";
+
+		$pdf_files = glob($pattern1);
+		if ( ! $pdf_files ){
+			$pattern = rtrim($this->settings_model->get_setting('assignments_root'),'/')
+						."/assignment_{$assignment_id}/p{$problem_id}/template.public.cpp";
+
+			$pdf_files = glob($pattern);
+			if(!$pdf_files)
+				show_error("File not found");
+		}
 
 		// Download the file to browser
 		$this->load->helper('download')->helper('file');
@@ -67,20 +74,20 @@ class Problems extends CI_Controller
 		if ($assignment_id === NULL)
 			$assignment_id = $this->user->selected_assignment['id'];
 
-		
-		if ($assignment_id == 0) { 
+
+		if ($assignment_id == 0) {
 			$data['error'] = 'Please select an assignment first';
-			$this->twig->display('pages/problems.twig', $data);	
+			$this->twig->display('pages/problems.twig', $data);
 			return;
-		} 
+		}
 
 		// $this->user->select_assignment($assignment_id);
 		// $this->assignment = $this->assignment_model->assignment_info($assignment_id);
 
 		$assignment = $this->assignment_model->assignment_info($assignment_id);
-		
+
 		if 	(shj_now() < strtotime($assignment['start_time'])
-			&& $this->user->level == 0 
+			&& $this->user->level == 0
 			){
 			$this->twig->display('pages/problems.twig', array('error' => "selected assignment hasn't started yet"));
 			return;
