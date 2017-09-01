@@ -104,6 +104,7 @@ class Install extends CI_Controller
 				'extra_time'    => array('type' => 'INT', 'constraint' => 11),
 				'late_rule'     => array('type' => 'TEXT'),
 				'participants'  => array('type' => 'TEXT'),
+                'courses'       => array('type' => 'TEXT'),
 				'moss_update'   => array('type' => 'VARCHAR', 'constraint' => 30, 'default' => 'Never'),
 			);
 			$this->dbforge->add_field($fields);
@@ -113,6 +114,17 @@ class Install extends CI_Controller
 				show_error("Error creating database table ".$this->db->dbprefix('assignments') . print_r($this->db->error(), true));
 
 			}
+
+            // create table 'courses'
+            $fields = array(
+                'id'                => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'auto_increment' => TRUE),
+                'name'              => array('type' => 'VARCHAR', 'constraint' => 50, 'default' => ''),
+                'registration_code' => array('type' => 'VARCHAR', 'constraint' => 50, 'default' => ''),
+            );
+            $this->dbforge->add_field($fields);
+            $this->dbforge->add_key('id', TRUE);
+            if (!$this->dbforge->create_table('courses', TRUE))
+                show_error("Error creating database table".$this->db->dbprefix('courses'));
 
 
 			// create table 'notifications'
@@ -242,6 +254,7 @@ class Install extends CI_Controller
 				'display_name'        => array('type' => 'VARCHAR', 'constraint' => 40, 'default' => ''),
 				'email'               => array('type' => 'VARCHAR', 'constraint' => 40),
 				'role'                => array('type' => 'VARCHAR', 'constraint' => 20),
+				'course'              => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
 				'passchange_key'      => array('type' => 'VARCHAR', 'constraint' => 60, 'default' => ''),
 				'passchange_time'     => array('type' => $DATETIME, 'null' => TRUE),
 				'first_login_time'    => array('type' => $DATETIME, 'null' => TRUE),

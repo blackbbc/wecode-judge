@@ -116,9 +116,10 @@ class User_model extends CI_Model
 	 * @param $email
 	 * @param $password
 	 * @param $role
+     * @param $course
 	 * @return bool|string
 	 */
-	public function add_user($username, $email, $password, $role, $display_name="")
+	public function add_user($username, $email, $password, $role, $course=100000000, $display_name="")
 	{
 		if ( ! $this->form_validation->alpha_numeric($username) )
 			return 'Username may only contain alpha-numeric characters.';
@@ -133,13 +134,16 @@ class User_model extends CI_Model
 		$roles = array('admin', 'head_instructor', 'instructor', 'student');
 		if ( ! in_array($role, $roles))
 			return 'Users role is not valid.';
+        if (!is_numeric($course))
+            return 'Course id must be valid.';
 		$this->load->library('password_hash', array(8, FALSE));
 		$user=array(
 			'username' => $username,
 			'email' => $email,
 			'password' => $this->password_hash->HashPassword($password),
-			'role' => $role
-			,'display_name' => $display_name
+            'role' => $role,
+            'course' => (int)$course,
+            'display_name' => $display_name
 		);
 		$this->db->insert('users', $user);
 		return TRUE; //success
@@ -188,8 +192,8 @@ class User_model extends CI_Model
 				}
 			}
 
-			$result = $this->add_user($parts[0], $parts[1], $parts[2], $parts[3], $parts[4]);
-			$a = array($parts[0], $parts[1], $parts[2], $parts[3], $parts[4]);
+			$result = $this->add_user($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
+			$a = array($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
 			if ($result === TRUE)
 				array_push($users_ok, $a);
 			else
