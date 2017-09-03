@@ -89,6 +89,19 @@
 		<textarea id="form_participants" name="participants" rows="5" class="sharif_input medium">{{ edit ? edit_assignment.participants : set_value('participants', 'ALL') }}</textarea>
 	</p>
 	<p class="input_p clear">
+		<label for="form_courses">Courses<br>
+			<span class="form_comment">Enter name of courses here.
+				Only users belong to these courses are able to submit.</span>
+		</label>
+        <select id="courses" name="select_courses[]" class="medium" multiple>
+            <option value="C">C</option>
+            <option value="C++">C++</option>
+            <option value="Python 2">Python 2</option>
+            <option value="Python 3">Python 3</option>
+            <option value="Java">Java</option>
+        </select>
+	</p>
+	<p class="input_p clear">
 		<label for="form_tests_desc">Tests and Descriptions (zip file)<br>
 			<span class="form_comment">
 				<a href="https://github.com/mjnaderi/Sharif-Judge/blob/docs/v1.4/tests_structure.md" target="_blank">Use this structure</a>

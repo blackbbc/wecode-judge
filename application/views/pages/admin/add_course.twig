@@ -1,0 +1,41 @@
+{#
+ # Sharif Judge
+ # file: add_user.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% set selected = 'courses' %}
+{% extends 'templates/base.twig' %}
+{% block icon %}fa-plus{% endblock %}
+{% block title %}Add Course{% endblock %}
+{% block head_title %}Add Course{% endblock %}
+
+
+{% block title_menu %}
+{% endblock %}
+
+
+{% block other_assets %}
+<script type='text/javascript' src="{{ base_url('assets/js/taboverride.min.js') }}"></script>
+<script>
+	$(document).ready(function(){
+
+	});
+</script>
+{% endblock %}
+
+
+{% block main_content %}
+{{ form_open('courses/add') }}
+    <p class="input_p">
+        <label for="form_name">Course Name</label>
+        <input id="form_name" type="text" name="name" class="sharif_input medium" />
+    </p>
+    <p class="input_p">
+        <label for="form_registration_code">Registration Code</label>
+        <input id="form_registration_code" type="text" name="registration_code" class="sharif_input medium" />
+    </p>
+    <p class="input_p">
+        <input type="submit" value="Add Course" class="sharif_input"/>
+    </p>
+</form>
+{% endblock %}  {# main_content #}

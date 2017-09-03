@@ -34,7 +34,14 @@ class User extends CI_Model
 
 		$this->email = $user->email;
 
-        $this->course = $user->course;
+        $query = $this->db->get_where('courses', array('id' => $user->course));
+        if ($query->num_rows() != 1)
+            $this->course = array(
+                'id' => $user->course,
+                'name' => ''
+            );
+        else
+            $this->course = $query->row();
 
 		$query = $this->db->get_where('assignments', array('id' => $user->selected_assignment));
 		if ($query->num_rows() != 1)

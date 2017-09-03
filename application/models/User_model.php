@@ -119,7 +119,7 @@ class User_model extends CI_Model
      * @param $course
 	 * @return bool|string
 	 */
-	public function add_user($username, $email, $password, $role, $course=100000000, $display_name="")
+	public function add_user($username, $email, $password, $role, $course=32767, $display_name="")
 	{
 		if ( ! $this->form_validation->alpha_numeric($username) )
 			return 'Username may only contain alpha-numeric characters.';

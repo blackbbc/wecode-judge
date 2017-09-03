@@ -24,6 +24,12 @@
 				<span class="sidebar_text">Users</span>
 			</a>
 		</li>
+		<li class="color-users{{ selected=='courses' ? ' selected' }}">
+			<a href="{{ site_url('courses') }}">
+				<i class="fa fa-sitemap fa-lg"></i>
+				<span class="sidebar_text">Courses</span>
+			</a>
+		</li>
 		{% endif %}
 		<li class="color-notifications{{ selected=='notifications' ? ' selected' }}">
 			<a href="{{ site_url('notifications') }}">

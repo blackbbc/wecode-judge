@@ -23,12 +23,16 @@ class Login extends CI_Controller
 	 *
 	 */
 	public function _registration_code($code){
-		$rc = $this->settings_model->get_setting('registration_code');
-		if ($rc == '0')
-			return TRUE;
-		if ($rc == $code)
-			return TRUE;
-		return FALSE;
+		//$rc = $this->settings_model->get_setting('registration_code');
+        //if ($rc == '0')
+			//return TRUE;
+		//if ($rc == $code)
+			//return TRUE;
+        $query = $this->db->get_where('courses', array('registration_code'=>$code));
+        if ($query->num_rows() != 1)
+            return FALSE;
+        else
+            return TRUE;
 	}
 
 
@@ -86,14 +90,17 @@ class Login extends CI_Controller
 		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[200]');
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'required|matches[password]');
 		$data = array(
-			'registration_code_required' => $this->settings_model->get_setting('registration_code')=='0'?FALSE:TRUE
+			//'registration_code_required' => $this->settings_model->get_setting('registration_code')=='0'?FALSE:TRUE
+            'registration_code_required' => TRUE
 		);
 		if ($this->form_validation->run()){
+            $course = $this->db->get_where('courses', array('registration_code'=>$this->input->post('registration_code')))->row();
 			$this->user_model->add_user(
 				$this->input->post('username'),
 				$this->input->post('email'),
 				$this->input->post('password'),
-				'student'
+                'student',
+                $course->id
 			);
 			$this->twig->display('pages/authentication/register_success.twig');
 		}
