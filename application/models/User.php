@@ -36,7 +36,7 @@ class User extends CI_Model
 
         $query = $this->db->get_where('courses', array('id' => $user->course));
         if ($query->num_rows() != 1)
-            $this->course = array(
+            $this->course = (object)array(
                 'id' => $user->course,
                 'name' => ''
             );

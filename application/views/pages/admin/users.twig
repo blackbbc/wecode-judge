@@ -32,6 +32,7 @@
 		<tr>
 			<th>#</th>
 			<th>User ID</th>
+            <th>Course ID</th>
 			<th>Username</th>
 			<th>Display Name</th>
 			<th>Email</th>
@@ -45,6 +46,7 @@
 		<tr data-id="{{ user.id }}">
 			<td>{{ loop.index }}</td>
 			<td>{{ user.id }}</td>
+            <td>{{ user.course }}</td>
 			<td id="un">{{ user.username }}</td>
 			<td dir="auto">{{ user.display_name }}</td>
 			<td>{{ user.email }}</td>

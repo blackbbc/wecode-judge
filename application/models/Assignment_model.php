@@ -186,7 +186,7 @@ class Assignment_model extends CI_Model
 		$assignments = array();
 		foreach ($result as $item)
 		{
-            if ($this->user->course->id === 32767 || in_array($this->user->course->id, explode(',', $item['courses'])))
+            if ($this->user->course->id == 32767 || in_array($this->user->course->id, explode(',', $item['courses'])))
                 $assignments[$item['id']] = $item;
 		}
 		return $assignments;
