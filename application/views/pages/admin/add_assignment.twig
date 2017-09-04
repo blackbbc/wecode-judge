@@ -94,11 +94,9 @@
 				Only users belong to these courses are able to submit.</span>
 		</label>
         <select id="courses" name="select_courses[]" class="medium" multiple>
-            <option value="C">C</option>
-            <option value="C++">C++</option>
-            <option value="Python 2">Python 2</option>
-            <option value="Python 3">Python 3</option>
-            <option value="Java">Java</option>
+            {% for course in courses %}
+                <option value="{{ course.id }}">{{ course.name }}</option>
+            {% endfor %}
         </select>
 	</p>
 	<p class="input_p clear">

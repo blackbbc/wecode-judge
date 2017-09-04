@@ -296,6 +296,15 @@ class Assignments extends CI_Controller
 			'default_late_rule' => $this->settings_model->get_setting('default_late_rule'),
 		);
 
+        if ($this->user->level == 3)
+        {
+            $data['courses'] = $this->course_model->get_all_courses();
+        }
+        else if ($hits->user->level == 2)
+        {
+            $data['courses'] = $this->db->get_where('courses', array('id'=>$this->user->course->id))->result_array();
+        }
+
 		if ($this->edit)
 		{
 			$data['edit_assignment'] = $this->assignment_model->assignment_info($this->edit_assignment);
@@ -388,6 +397,7 @@ class Assignments extends CI_Controller
 		$this->form_validation->set_rules('languages[]', 'languages', 'required');
 		$this->form_validation->set_rules('diff_cmd[]', 'diff command', 'required');
 		$this->form_validation->set_rules('diff_arg[]', 'diff argument', 'required');
+        $this->form_validation->set_rules('select_courses', 'courses', 'required');
 
 		// Validate input data
 

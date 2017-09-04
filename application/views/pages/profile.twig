@@ -27,6 +27,12 @@
 	<input id="form_username" type="text" name="username" class="sharif_input medium" value="{{ edit_username }}"  disabled/>
 </p>
 <p class="input_p clear">
+	<label for="form_course" class="short2">Course:<br>
+		<span class="form_comment">You cannot change course.</span>
+	</label>
+	<input id="form_course" type="text" name="course" class="sharif_input medium" value="{{ course }}"  disabled/>
+</p>
+<p class="input_p clear">
 	<label for="form_name" class="short2">Name:</label>
 	<input id="form_name" type="text" name="display_name" class="sharif_input medium" value="{{ display_name }}"/>
 	{{ form_error('display_name', '<div class="shj_error">', '</div>') }}

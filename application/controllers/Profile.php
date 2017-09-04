@@ -60,6 +60,7 @@ class Profile extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'id' => $user_id,
 			'edit_username' => $this->edit_username,
+            'course' => $this->user->course->name,
 			'email' => $user->email,
 			'display_name' => $user->display_name,
 			'role' => $user->role,

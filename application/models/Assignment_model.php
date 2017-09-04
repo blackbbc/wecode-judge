@@ -51,8 +51,9 @@ class Assignment_model extends CI_Model
 			'finish_time' => date('Y-m-d H:i:s', strtotime($this->input->post('finish_time'))),
 			'extra_time' => $extra_time*60,
 			'late_rule' => $this->input->post('late_rule'),
-			'participants' => $this->input->post('participants')
-		);
+            'participants' => $this->input->post('participants'),
+            'courses' => implode(',', $this->input->post('select_courses'))
+        );
 		if($edit)
 		{
 			$before = $this->db->get_where('assignments', array('id'=>$id))->row_array();
@@ -185,7 +186,8 @@ class Assignment_model extends CI_Model
 		$assignments = array();
 		foreach ($result as $item)
 		{
-			$assignments[$item['id']] = $item;
+            if ($this->user->course->id === 32767 || in_array($this->user->course->id, explode(',', $item['courses'])))
+                $assignments[$item['id']] = $item;
 		}
 		return $assignments;
 	}
