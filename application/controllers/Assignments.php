@@ -311,6 +311,7 @@ class Assignments extends CI_Controller
 			if ($data['edit_assignment']['id'] === 0)
 				show_404();
 			$data['problems'] = $this->assignment_model->all_problems($this->edit_assignment);
+            $data['edit_courses'] = explode(',', $data['edit_assignment']['courses']);
 		}
 		else
 		{

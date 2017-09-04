@@ -95,7 +95,7 @@
 		</label>
         <select id="courses" name="select_courses[]" class="medium" multiple>
             {% for course in courses %}
-                <option value="{{ course.id }}">{{ course.name }}</option>
+                <option value="{{ course.id }}" {% if edit and course.id in edit_courses %} selected {% endif %}>{{ course.name }}</option>
             {% endfor %}
         </select>
 	</p>
