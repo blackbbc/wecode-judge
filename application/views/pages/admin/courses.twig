@@ -43,7 +43,8 @@
 			<td id="un">{{ course.name }}</td>
 			<td>{{ course.registration_code }}</td>
 			<td>
-				<span title="Delete Course" class="pointer"><i title="Delete Course" class="fa fa-times fa-lg color2"></i></span>
+				<a title="Edit" href="{{ site_url('courses/edit/'~course.id) }}"><i class="fa fa-pencil fa-lg color9"></i></a>
+				<a title="Delete Course" href="{{ site_url('courses/delete/'~course.id) }}"><i title="Delete Course" class="fa fa-times fa-lg color2"></i></a>
 			</td>
 		</tr>
 	{% endfor %}

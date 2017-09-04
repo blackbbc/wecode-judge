@@ -5,9 +5,9 @@
  #}
 {% set selected = 'courses' %}
 {% extends 'templates/base.twig' %}
-{% block icon %}fa-plus{% endblock %}
-{% block title %}Add Course{% endblock %}
-{% block head_title %}Add Course{% endblock %}
+{% block icon %}{{ edit ? 'fa-edit' : 'fa-plus' }}{% endblock %}
+{% block title %}{{ edit ? 'Edit' : 'Add' }} Course{% endblock %}
+{% block head_title %}{{ edit ? 'Edit' : 'Add' }} Course{% endblock %}
 
 
 {% block title_menu %}
@@ -25,17 +25,23 @@
 
 
 {% block main_content %}
-{{ form_open('courses/add') }}
+{{ form_open(edit ? 'courses/edit/'~edit_course.id : 'course/add') }}
     <p class="input_p">
         <label for="form_name">Course Name</label>
-        <input id="form_name" type="text" name="name" class="sharif_input medium" />
+        <input id="form_name" type="text" name="name" class="sharif_input medium" value = "{{ edit ? edit_course.name : '' }}" />
     </p>
     <p class="input_p">
         <label for="form_registration_code">Registration Code</label>
-        <input id="form_registration_code" type="text" name="registration_code" class="sharif_input medium" />
+        <input id="form_registration_code" type="text" name="registration_code" class="sharif_input medium" value = "{{ edit ? edit_course.registration_code : '' }}" />
     </p>
+    {% if edit %}
+    <p class="input_p">
+        <input type="submit" value="Edit Course" class="sharif_input"/>
+    </p>
+    {% else %}
     <p class="input_p">
         <input type="submit" value="Add Course" class="sharif_input"/>
     </p>
+    {% endif %}
 </form>
 {% endblock %}  {# main_content #}
