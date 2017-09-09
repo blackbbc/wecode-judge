@@ -25,7 +25,7 @@
 
 
 {% block main_content %}
-{{ form_open(edit ? 'courses/edit/'~edit_course.id : 'course/add') }}
+{{ form_open(edit ? 'courses/edit/'~edit_course.id : 'courses/add') }}
     <p class="input_p">
         <label for="form_name">Course Name</label>
         <input id="form_name" type="text" name="name" class="sharif_input medium" value = "{{ edit ? edit_course.name : '' }}" />
