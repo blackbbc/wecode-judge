@@ -179,7 +179,7 @@ class User_model extends CI_Model
 				continue; //ignore comments and empty lines
 
 			$parts = preg_split('/\s*,\s*/', $line);
-			if (count($parts) != 5)
+			if (count($parts) != 6)
 				continue; //ignore lines that not contain 5 parts
 //echo $line;
 			if (strtolower(substr($parts[2], 0, 6)) == 'random')
@@ -192,8 +192,8 @@ class User_model extends CI_Model
 				}
 			}
 
-			$result = $this->add_user($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
-			$a = array($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
+			$result = $this->add_user($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5], $parts[6]);
+			$a = array($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5], $parts[6]);
 			if ($result === TRUE)
 				array_push($users_ok, $a);
 			else

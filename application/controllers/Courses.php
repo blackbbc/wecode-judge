@@ -27,7 +27,7 @@ class Courses extends CI_Controller
     {
         $data = array(
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'courses' => $this->course_model->get_all_courses()
+            'courses' => $this->course_model->get_all_courses()
         );
 
         $this->twig->display('pages/admin/courses.twig', $data);

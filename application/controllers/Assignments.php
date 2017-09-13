@@ -414,8 +414,9 @@ class Assignments extends CI_Controller
 			$the_id = $this->assignment_model->new_assignment_id();
 
 		$assignments_root = rtrim($this->settings_model->get_setting('assignments_root'), '/');
+        $assets_root = rtrim($this->settings_model->get_setting('assets_root'), '/');
 		$assignment_dir = "$assignments_root/assignment_{$the_id}";
-
+        $asset_dir = "$assets_root/ass/{$the_id}";
 
 
 		// Adding/Editing assignment in database
@@ -438,6 +439,9 @@ class Assignments extends CI_Controller
 		if ( ! file_exists($assignment_dir) )
 			mkdir($assignment_dir, 0700);
 
+        // Create asset directory
+        if ( ! file_exists($asset_dir) )
+            mkdir($asset_dir, 0755);
 
 
 		// Upload Tests (zip file)
@@ -510,7 +514,7 @@ class Assignments extends CI_Controller
 
 			// Extract new test cases and descriptions in temp directory
 			$this->load->library('unzip');
-			$this->unzip->allow(array('txt', 'cpp', 'html', 'md', 'pdf'));
+			$this->unzip->allow(array('txt', 'cpp', 'html', 'md', 'pdf', "jpg", "jpeg", "png", "gif"));
 			$extract_result = $this->unzip->extract($u_data['full_path'], $tmp_dir);
 
 			// Remove the zip file
@@ -523,10 +527,19 @@ class Assignments extends CI_Controller
 					." rm -rf */in; rm -rf */out; rm -f */tester.cpp; rm -f */tester.executable;"
 					." rm -rf */template.*;"
 					." rm -f */desc.html; rm -f */desc.md; rm -f */*.pdf;");
+                // Remove previous assets
+                shell_exec("cd $asset_dir;"
+                    ." rm -rf *;");
 				if (glob("$tmp_dir/*.pdf"))
 					shell_exec("cd $assignment_dir; rm -f *.pdf");
 				// Copy new test cases from temp dir
 				shell_exec("cd $assignments_root; cp -R $tmp_dir_name/* assignment_{$the_id};");
+                // Copy new assets from temp dir
+                shell_exec("cd $assignments_root/$tmp_dir_name;".
+                    " cp --parents */*.jpg $asset_dir;".
+                    " cp --parents */*.jpeg $asset_dir;".
+                    " cp --parents */*.png $asset_dir;".
+                    " cp --parents */*.gif $asset_dir;");
 				$this->messages[] = array(
 					'type' => 'success',
 					'text' => 'Tests (zip file) extracted successfully.'
@@ -546,7 +559,7 @@ class Assignments extends CI_Controller
 			}
 
 			// Remove temp directory
-			shell_exec("rm -rf $tmp_dir");
+             shell_exec("rm -rf $tmp_dir");
 		}
 
 
@@ -560,7 +573,12 @@ class Assignments extends CI_Controller
 			elseif (file_exists("$assignment_dir/p$i/desc.md"))
 			{
 				$this->load->library('parsedown');
-				$html = $this->parsedown->parse(file_get_contents("$assignment_dir/p$i/desc.md"));
+                $md = file_get_contents("$assignment_dir/p$i/desc.md");
+
+                $p_asset_dir = "/assets/ass/$the_id/p$i";
+                $md = preg_replace("/(!\[\]\()(\w+\.\w+\))/", "$1$p_asset_dir/$2", $md);
+
+				$html = $this->parsedown->parse($md);
 				file_put_contents("$assignment_dir/p$i/desc.html", $html);
 			}
 		}
