@@ -300,7 +300,7 @@ class Assignments extends CI_Controller
         {
             $data['courses'] = $this->course_model->get_all_courses();
         }
-        else if ($hits->user->level == 2)
+        else if ($this->user->level == 2)
         {
             $data['courses'] = $this->db->get_where('courses', array('id'=>$this->user->course->id))->result_array();
         }
